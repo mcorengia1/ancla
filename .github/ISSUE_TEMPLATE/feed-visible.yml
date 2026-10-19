@@ -1,0 +1,48 @@
+name: "A feed or Shorts showed up again · Volvió a aparecer un feed o los Shorts"
+description: "Something Ancla should hide is visible again. · Algo que Ancla debería ocultar se ve de nuevo."
+labels: ["selectors"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sites change their HTML often, so this is the most common kind of report. Thanks!
+        Los sitios cambian su HTML seguido, así que este es el reporte más común. ¡Gracias!
+  - type: dropdown
+    id: site
+    attributes:
+      label: "Site · Sitio"
+      options:
+        - X / Twitter
+        - Instagram
+        - YouTube
+        - YouTube Shorts
+        - Facebook
+        - Reddit
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: "Page where it happens · Página donde pasa"
+      description: "Remove anything personal from the URL. · Sacale a la URL cualquier dato personal."
+      placeholder: "https://www.instagram.com/"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: "What is visible · Qué se ve"
+      description: "A screenshot helps a lot (hide personal content). · Una captura ayuda mucho (ocultá contenido personal)."
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: "Ancla and Firefox versions · Versiones de Ancla y Firefox"
+      placeholder: "Ancla 2.2, Firefox 144"
+  - type: textarea
+    id: selector
+    attributes:
+      label: "Selector (optional) · Selector (opcional)"
+      description: "If you inspected the page and found a stable selector, paste it here. · Si inspeccionaste la página y encontraste un selector estable, pegalo acá."
+      render: css

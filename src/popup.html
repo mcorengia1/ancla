@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root {
+      --bg: #f2f4f8;
+      --surface: #ffffff;
+      --ink: #15233a;
+      --muted: #5f6c82;
+      --line: #dfe4ec;
+      --accent: #4a63f0;
+      --accent-soft: #e8ecfe;
+      --sea: #13284f;
+      --sea-ink: #eef2fb;
+      --amber: #b9740f;
+      --amber-soft: #fbefd9;
+      --danger: #c43d33;
+      --ok: #1f9d63;
+      --track: #e6e9f0;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0e1626;
+        --surface: #152036;
+        --ink: #e6ebf5;
+        --muted: #8e9ab2;
+        --line: #233250;
+        --accent: #7a8cff;
+        --accent-soft: #212d55;
+        --sea: #1b3266;
+        --sea-ink: #eef2fb;
+        --amber: #f0b45a;
+        --amber-soft: #3a2c14;
+        --danger: #ff7a70;
+        --ok: #4fd39a;
+        --track: #22304d;
+        color-scheme: dark;
+      }
+    }
+
+    [hidden] { display: none !important; }
+    * { box-sizing: border-box; }
+    /* Altura fija: Firefox no tiene que redimensionar el panel al cambiar de pestaña */
+    html, body { height: 560px; }
+    body { width: 360px; margin: 0; background: var(--bg); color: var(--ink); overflow: hidden;
+           display: flex; flex-direction: column;
+           font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    #main { flex: 1; overflow-y: auto; padding: 12px 12px 18px; scrollbar-width: thin; }
+    button { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* ---------- Encabezado ---------- */
+    header { background: var(--sea); color: var(--sea-ink); padding: 14px 16px 15px; flex: none; }
+    .brand { display: flex; align-items: center; gap: 8px; }
+    .brand img { width: 22px; height: 22px; }
+    .brand b { font-size: 14px; font-weight: 650; flex: 1; }
+    #statusTitle { font-size: 21px; font-weight: 700; letter-spacing: -.015em; margin: 12px 0 2px; }
+    #statusSub { opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ---------- Interruptor ---------- */
+    .switch { appearance: none; -webkit-appearance: none; width: 36px; height: 21px; border-radius: 999px;
+              background: var(--track); position: relative; cursor: pointer; flex: none; margin: 0;
+              transition: background .15s; }
+    .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 17px; height: 17px;
+                     border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
+    .switch:checked { background: var(--accent); }
+    .switch:checked::after { transform: translateX(15px); }
+    .switch:disabled { opacity: .45; cursor: not-allowed; }
+    header .switch { background: rgba(255,255,255,.22); }
+    header .switch:checked { background: #6f86ff; }
+
+    /* ---------- Aviso de bloqueo ---------- */
+    .lockbar { display: flex; align-items: center; gap: 10px; padding: 9px 16px; border-bottom: 1px solid var(--line); flex: none; }
+    .lockbar.locked { background: var(--amber-soft); color: var(--amber); }
+    .lockbar.open { background: var(--accent-soft); color: var(--accent); }
+    .lockbar span { flex: 1; font-weight: 600; }
+    .lockbar button { border: 0; border-radius: 8px; padding: 6px 10px; background: var(--surface);
+                      color: var(--ink); cursor: pointer; font-weight: 600; white-space: nowrap; }
+
+    /* ---------- Pestañas ---------- */
+    nav { display: flex; gap: 4px; padding: 8px 12px 0; flex: none; border-bottom: 1px solid var(--line); }
+    nav button { flex: 1; border: 0; background: none; padding: 8px 0 9px; cursor: pointer; color: var(--muted);
+                 font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    nav button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+
+    /* ---------- Bloques ---------- */
+    .heading { font-weight: 650; font-size: 12.5px; color: var(--muted); margin: 16px 2px 8px; }
+    .heading:first-child { margin-top: 2px; }
+    .list { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+            list-style: none; margin: 0; padding: 0; }
+    .list > li + li { border-top: 1px solid var(--line); }
+    .section { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 2px 12px 12px; }
+    .empty { padding: 16px 14px; text-align: center; color: var(--muted); }
+
+    .item { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 0;
+            background: none; text-align: left; }
+    button.item { cursor: pointer; }
+    .item-info { flex: 1; min-width: 0; }
+    .item-name { font-weight: 650; font-size: 13.5px; }
+    .item-sum { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chev { color: var(--muted); transition: transform .15s; }
+    .open > .item .chev { transform: rotate(90deg); }
+
+    .avatar { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; flex: none;
+              font-weight: 700; font-size: 14px; color: #fff; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--track); flex: none; margin: 0 4px; }
+    .dot.on { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 22%, transparent); }
+
+    .usage { height: 4px; margin: -2px 12px 10px 52px; background: var(--track); border-radius: 2px; overflow: hidden; }
+    .usage i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+    .usage.warn i { background: var(--amber); }
+    .usage.over i { background: var(--danger); }
+
+    /* ---------- Editor de sitio ---------- */
+    .edit { padding: 2px 12px 14px 52px; }
+    .label { color: var(--muted); font-size: 12px; margin: 8px 0 6px; }
+    .seg { display: flex; background: var(--bg); border-radius: 9px; padding: 3px; gap: 2px; }
+    .seg button { flex: 1; border: 0; background: none; border-radius: 7px; padding: 6px 4px; cursor: pointer;
+                  font-size: 12px; font-weight: 600; color: var(--muted); }
+    .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+    .seg button:disabled { opacity: .4; cursor: not-allowed; }
+    .hint { color: var(--muted); font-size: 11.5px; margin-top: 6px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; }
+    .row .txt { flex: 1; }
+    .row .txt small { display: block; color: var(--muted); font-size: 11.5px; }
+    .num { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+    .num input { width: 58px; padding: 5px 6px; border: 1px solid var(--line); border-radius: 7px;
+                 background: var(--bg); color: var(--ink); font: inherit; text-align: right; }
+    .num input:disabled { opacity: .45; }
+    .remove { margin-top: 14px; border: 0; background: none; color: var(--danger); cursor: pointer; padding: 0;
+              font-weight: 600; font-size: 12px; }
+    .remove:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* ---------- Formularios ---------- */
+    .add { display: flex; gap: 6px; margin-top: 8px; }
+    .add input, .name-input { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px;
+                 background: var(--surface); color: var(--ink); font: inherit; }
+    .btn { border: 0; border-radius: 9px; padding: 8px 12px; background: var(--accent); color: #fff;
+           cursor: pointer; font-weight: 650; }
+    .btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+    .btn.block { width: 100%; margin-top: 6px; }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ---------- Detalle de perfil ---------- */
+    .back { border: 0; background: none; color: var(--accent); cursor: pointer; padding: 2px 0; font-weight: 600; }
+    .name-input { width: 100%; font-size: 17px; font-weight: 700; padding: 8px 10px; margin-top: 8px; }
+    .pstate { color: var(--muted); margin: 6px 2px 0; }
+    .pstate b { color: var(--ok); font-weight: 650; }
+
+    .days { display: flex; gap: 4px; margin-top: 10px; }
+    .days button { flex: 1; aspect-ratio: 1; border: 1px solid var(--line); border-radius: 50%; background: var(--bg);
+                   cursor: pointer; font-weight: 650; font-size: 12px; color: var(--muted); padding: 0; }
+    .days button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .days button:disabled { opacity: .45; cursor: not-allowed; }
+    .times { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--muted); }
+    .times input { flex: 1; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg);
+                   color: var(--ink); font: inherit; }
+    .times input:disabled { opacity: .45; }
+    .off { opacity: .45; pointer-events: none; }
+
+    .templates { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .tpl { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 10px 8px;
+           cursor: pointer; text-align: left; }
+    .tpl b { display: block; font-size: 12.5px; }
+    .tpl span { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; }
+
+    .stat { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: var(--bg); color: var(--muted); }
+    .stat b { color: var(--ink); }
+
+    /* ---------- Mensaje inicial (configuración bloqueada) ---------- */
+    .intro { position: fixed; inset: 0; z-index: 10; background: var(--sea); color: var(--sea-ink);
+             display: flex; flex-direction: column; justify-content: center; padding: 28px 26px; }
+    .intro img { width: 48px; height: 48px; }
+    .intro h2 { font-size: 21px; margin: 16px 0 10px; letter-spacing: -.015em; }
+    .intro p { margin: 0 0 10px; opacity: .85; line-height: 1.55; font-size: 13.5px; }
+    .intro .btn { width: 100%; margin-top: 14px; padding: 10px; background: #fff; color: var(--sea); }
+    .intro .link { width: 100%; margin-top: 6px; padding: 10px; border: 0; background: none; color: var(--sea-ink);
+                   opacity: .8; cursor: pointer; font-weight: 600; }
+
+    /* ---------- Aviso flotante ---------- */
+    #toast { position: fixed; left: 12px; right: 12px; bottom: 12px; padding: 10px 12px; border-radius: 10px;
+             background: var(--ink); color: var(--bg); font-weight: 600; text-align: center;
+             opacity: 0; transform: translateY(8px); transition: opacity .15s, transform .15s; pointer-events: none; z-index: 20; }
+    #toast.show { opacity: 1; transform: none; }
+    #toast.error { background: var(--danger); color: #fff; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div id="intro" class="intro" hidden>
+    <img src="icons/icon.svg" alt="">
+    <h2>Configuración bloqueada</h2>
+    <p>Tenés perfiles activos. Para editar la configuración tenés que pedir un desbloqueo y esperar <b id="introDelay">10 minutos</b> con la pestaña de espera abierta.</p>
+    <p>Cuando termine la espera vas a tener 5 minutos para hacer cambios.</p>
+    <p>Mientras tanto podés crear perfiles, agregar sitios y endurecer las reglas que ya tenés.</p>
+    <button class="btn" id="introUnlock">Pedir desbloqueo</button>
+    <button class="link" id="introDismiss">Ver la configuración</button>
+  </div>
+
+  <header>
+    <div class="brand">
+      <img src="icons/icon.svg" alt="">
+      <b>Ancla</b>
+      <input type="checkbox" class="switch" id="enabled" aria-label="Activar Ancla">
+    </div>
+    <div id="statusTitle"></div>
+    <div id="statusSub"></div>
+  </header>
+
+  <div id="lockbar" class="lockbar" hidden>
+    <span id="lockText"></span>
+    <button id="lockBtn"></button>
+  </div>
+
+  <nav role="tablist">
+    <button role="tab" data-tab="now" aria-selected="true">Ahora</button>
+    <button role="tab" data-tab="profiles" aria-selected="false">Perfiles</button>
+    <button role="tab" data-tab="strict" aria-selected="false">Estricto</button>
+  </nav>
+
+  <main id="main"></main>
+
+  <div id="toast" role="status"></div>
+
+  <script src="common.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

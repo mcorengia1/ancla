@@ -1,0 +1,19 @@
+# Dependencias
+node_modules/
+
+# Builds de web-ext
+dist/
+web-ext-artifacts/
+*.zip
+*.xpi
+
+# Credenciales de AMO (nunca subirlas)
+.env
+.web-extension-id
+web-ext-config.*
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

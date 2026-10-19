@@ -1,0 +1,39 @@
+{
+  "manifest_version": 2,
+  "name": "Ancla — foco sin distracciones",
+  "short_name": "Ancla",
+  "version": "2.2",
+  "description": "Te mantiene en lo que estás haciendo: oculta feeds e historias, bloquea sitios, limita el tiempo diario y pone sitios en blanco y negro, con horario y modo estricto.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "permissions": ["storage", "<all_urls>"],
+  "background": {
+    "scripts": ["common.js", "background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["common.js", "content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": ["icons/icon.svg"],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Ancla",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "modo-foco@local",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  }
+}

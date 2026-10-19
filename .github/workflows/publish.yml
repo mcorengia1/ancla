@@ -1,0 +1,56 @@
+# Publica una versión nueva en Complementos de Firefox (AMO) al subir un tag vX.Y.Z.
+#
+# Configuración (una sola vez):
+#   1. Generá credenciales en https://addons.mozilla.org/developers/addon/api/key/
+#   2. En GitHub: Settings → Secrets and variables → Actions, creá los secrets
+#      AMO_JWT_ISSUER (el "JWT issuer") y AMO_JWT_SECRET (el "JWT secret").
+#
+# Uso: actualizá la versión en src/manifest.json y package.json, y después:
+#   git tag v2.3 && git push origin v2.3
+
+name: Publish
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check that the tag matches the manifest version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          MANIFEST=$(node -p "require('./src/manifest.json').version")
+          if [ "$TAG" != "$MANIFEST" ]; then
+            echo "The tag ($TAG) does not match src/manifest.json ($MANIFEST)"
+            exit 1
+          fi
+
+      - run: npm run check
+
+      - run: npm run build
+
+      - name: Submit to Firefox Add-ons
+        run: npx web-ext sign --source-dir src --channel listed --artifacts-dir dist
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true

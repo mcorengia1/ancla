@@ -1,0 +1,21 @@
+name: "Feature request · Proponer una idea"
+description: "Suggest something new for Ancla. · Sugerí algo nuevo para Ancla."
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: "What problem would it solve? · ¿Qué problema resolvería?"
+      description: "Describe the situation, not only the solution. · Contá la situación, no solo la solución."
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: "Your idea · Tu idea"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives you considered · Alternativas que pensaste"

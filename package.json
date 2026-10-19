@@ -1,0 +1,17 @@
+{
+  "name": "ancla",
+  "version": "2.2.0",
+  "private": true,
+  "description": "Firefox extension that hides social media feeds, blocks distracting sites, sets daily time limits and turns sites grayscale, with profiles, schedules and a strict mode.",
+  "license": "MIT",
+  "scripts": {
+    "start": "web-ext run --source-dir src",
+    "lint": "web-ext lint --source-dir src",
+    "test": "node --test",
+    "build": "web-ext build --source-dir src --artifacts-dir dist --overwrite-dest",
+    "check": "npm test && npm run lint"
+  },
+  "devDependencies": {
+    "web-ext": "^10.8.0"
+  }
+}

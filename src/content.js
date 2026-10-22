@@ -29,9 +29,11 @@ const FEEDS = {
   },
   "instagram.com": {
     isFeed: (p) => p === "/",
-    redirect: (p) => (/^\/(reels?|explore|stories)(\/|$)/.test(p) ? "/" : null),
+    // /stories/ no se redirige: la bandeja de historias del feed queda oculta,
+    // pero se pueden ver las historias (y destacadas) entrando a un perfil
+    redirect: (p) => (/^\/(reels?|explore)(\/|$)/.test(p) ? "/" : null),
     css: `html[data-ancla-feed] main { visibility: hidden !important; }`,
-    message: "Feed, historias, Reels y Explorar ocultos. Podés usar mensajes, buscar y ver perfiles."
+    message: "Feed, historias, Reels y Explorar ocultos. Podés usar mensajes, buscar y ver perfiles con sus historias."
   },
   "youtube.com": {
     isFeed: (p) => p === "/",

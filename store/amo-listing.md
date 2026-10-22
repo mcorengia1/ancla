@@ -34,7 +34,7 @@ Perfiles con su propio horario
 Armá perfiles como "Redes sociales" (lunes a viernes, todo el día) u "Horario laboral" (lunes a viernes de 9 a 18). Pueden estar activos varios a la vez, y para cada sitio gana la regla más estricta. El fin de semana, si no hay ningún perfil activo, todo se ve normal.
 
 Reglas por sitio
-• Ocultar feed en X (Para ti, Explorar, tendencias), Instagram (feed, historias, Reels, Explorar), YouTube (inicio, recomendados, pantallas finales), Facebook (feed, historias, Watch, Reels) y Reddit (portada, Popular, All).
+• Ocultar feed en X (Para ti, Explorar, tendencias), Instagram (feed y sus historias, Reels, Explorar), YouTube (inicio, recomendados, pantallas finales), Facebook (feed, historias, Watch, Reels) y Reddit (portada, Popular, All).
 • Bloquear el sitio entero, para los que no tienen un feed compatible.
 • Blanco y negro, para que sean menos atractivos.
 • Límite diario en minutos, con un aviso cuando quedan 5.
@@ -66,7 +66,7 @@ Profiles with their own schedule
 Create profiles like "Social media" (Monday to Friday, all day) or "Work hours" (Monday to Friday, 9 to 6). Several can be active at the same time, and the strictest rule wins for each site. On weekends, if no profile is active, everything looks normal.
 
 Per-site rules
-• Hide the feed on X (For you, Explore, trends), Instagram (feed, stories, Reels, Explore), YouTube (home, recommendations, end screens), Facebook (feed, stories, Watch, Reels) and Reddit (front page, Popular, All).
+• Hide the feed on X (For you, Explore, trends), Instagram (feed and its stories, Reels, Explore), YouTube (home, recommendations, end screens), Facebook (feed, stories, Watch, Reels) and Reddit (front page, Popular, All).
 • Block the whole site, for those without a supported feed.
 • Grayscale, to make them less appealing.
 • Daily limit in minutes, with a notice when 5 are left.

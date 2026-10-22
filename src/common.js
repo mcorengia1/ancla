@@ -57,7 +57,7 @@ const MAX_UNLOCK_DELAY = 180;
 const FEED_SITES = {
   "x.com":         { name: "X",         hint: "Oculta Para ti / Siguiendo, Explorar y tendencias" },
   "twitter.com":   { name: "X",         hint: "Oculta Para ti / Siguiendo, Explorar y tendencias" },
-  "instagram.com": { name: "Instagram", hint: "Oculta el feed, las historias, Reels y Explorar" },
+  "instagram.com": { name: "Instagram", hint: "Oculta el feed y sus historias, Reels y Explorar" },
   "youtube.com":   { name: "YouTube",   hint: "Oculta el inicio, los recomendados y las pantallas finales" },
   "facebook.com":  { name: "Facebook",  hint: "Oculta el feed, las historias, Watch y Reels" },
   "reddit.com":    { name: "Reddit",    hint: "Oculta la portada, Popular y All" }

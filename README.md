@@ -119,7 +119,7 @@ El fin de semana todo se ve normal. Entre semana los feeds nunca aparecen, y You
 
 - **Ocultar feed**: el sitio sigue funcionando para mensajes, búsquedas y perfiles, pero sin el scroll infinito. Funciona en:
   - **X**: Para ti / Siguiendo, Explorar y tendencias.
-  - **Instagram**: feed e historias; Reels, Explorar e historias redirigen al inicio.
+  - **Instagram**: feed e historias; Reels y Explorar redirigen al inicio. Las historias de un perfil se pueden ver entrando a él.
   - **YouTube**: inicio, recomendados y pantallas finales.
   - **Facebook**: feed e historias; Watch y Reels redirigen al inicio.
   - **Reddit**: portada, Popular y All.

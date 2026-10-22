@@ -4,6 +4,11 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ## [Unreleased]
 
+## [2.3] - 2026-10-22
+
+### Changed
+- Instagram: a profile's stories and highlights can be watched from that profile. The stories tray in the home feed stays hidden.
+
 ## [2.2] - 2026-10-19
 
 First public release on Firefox Add-ons.
